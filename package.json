@@ -1,0 +1,21 @@
+{
+  "name": "intelligentdirectory",
+  "version": "1.0.0",
+  "description": "The Intelligent Directory has ability to recognize and sort a downloaded file and move it to the specific directory.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morientes26/intelligentDirectory.git"
+  },
+  "author": "Michal Kalman  ⌐⨀_⨀¬",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morientes26/intelligentDirectory/issues"
+  },
+  "homepage": "https://github.com/morientes26/intelligentDirectory#readme"
+}
