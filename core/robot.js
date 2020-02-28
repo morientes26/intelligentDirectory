@@ -1,24 +1,8 @@
 const fs = require('fs')
-
-/**
- * Loading configuration file by defined ENV profile
- *
- * @return {JSON} configuration object
- */
-const config = function () {
-    let result = require('./../config/default.json')
-    if (process.env.profile) {
-        try {
-            result = require('./../config/'+process.env.profile+'.json')
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    return result;
-}()
+const config = require('loadConfig')
 
 const SOURCE_PATH = config.source_folder
+const INTERVAL = config.interval
 
 /**
 * Filtering files by postFix
@@ -38,20 +22,6 @@ let fileFilter = (postfix, items) => {
 
         return match;
     })
-}
-
-/**
- * Task for processing files from destination folder
- */
-let task = () => {
-    let filtredItems;
-    fs.readdir(SOURCE_PATH, function(err, items) {
-        for (let [key, filterObject] of Object.entries(config.folders)) {
-            filtredItems = fileFilter(filterObject.postfix, items);
-            console.log('Process [' + filtredItems.length + '] files filtred by ['+filterObject.postfix+']');
-            moveFile(filtredItems, filterObject.destination)
-        }
-    });
 }
 
 /**
@@ -77,4 +47,21 @@ let moveFile = (source, destination) => {
     }
 }
 
-module.exports = task
+/**
+ * Robot object contents task and interval for processing files from destination folder
+ */
+let robot = {
+    'task': () => {
+        let filtredItems;
+        fs.readdir(SOURCE_PATH, function(err, items) {
+            for (let [key, filterObject] of Object.entries(config.folders)) {
+                filtredItems = fileFilter(filterObject.postfix, items);
+                console.log('Process [' + filtredItems.length + '] files filtred by ['+filterObject.postfix+']');
+                moveFile(filtredItems, filterObject.destination)
+            }
+        });
+    },
+    'interval': INTERVAL
+}
+
+module.exports = robot
